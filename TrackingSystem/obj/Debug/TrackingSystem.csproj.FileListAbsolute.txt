@@ -65,3 +65,6 @@ C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\Track
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\TrackingSystem.Models.dll
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\TrackingSystem.Data.pdb
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\TrackingSystem.Models.pdb
+C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\System.Web.Cors.dll
+C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\System.Web.Http.Cors.dll
+C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\System.Web.Http.Cors.xml

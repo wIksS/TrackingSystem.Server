@@ -4,10 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace TrackingSystem.Controllers
 {
-    [Authorize]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ValuesController : ApiController
     {
         // GET api/values
@@ -23,8 +24,10 @@ namespace TrackingSystem.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        [HttpPost]
+        public string Post([FromBody]string pesho)
         {
+            return "pseho";
         }
 
         // PUT api/values/5

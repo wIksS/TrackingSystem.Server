@@ -16,9 +16,11 @@ using Microsoft.Owin.Security.OAuth;
 using TrackingSystem.Models;
 using TrackingSystem.Providers;
 using TrackingSystem.Results;
+using System.Web.Http.Cors;
 
 namespace TrackingSystem.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
