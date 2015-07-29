@@ -9,7 +9,15 @@ namespace TrackingSystem.Data
 {
     public interface ITrackingSystemData
     {
-        IRepository<ApplicationUser> Users { get; }        
+        IRepository<ApplicationUser> Users
+        {
+            get;
+        }
+
+        IRepository<Coordinate> Coordinates
+        {
+            get;
+        }
 
     }
 }

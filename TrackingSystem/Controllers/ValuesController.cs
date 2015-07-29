@@ -8,7 +8,6 @@ using System.Web.Http.Cors;
 
 namespace TrackingSystem.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ValuesController : ApiController
     {
         // GET api/values

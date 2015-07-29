@@ -16,9 +16,20 @@ namespace TrackingSystem.Data
             : base("TrackingSystemConnection")
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<TrackingSystemDbContext, Configuration>());
-        } 
+        }
 
-        IDbSet<ApplicationUser> Users { get; set; }
+        IDbSet<ApplicationUser> Users
+        {
+            get;
+            set;
+        }
+
+        IDbSet<Coordinate> Coordinates
+        {
+            get;
+            set;
+        }
+
 
         public static TrackingSystemDbContext Create()
         {

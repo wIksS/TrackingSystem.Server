@@ -30,6 +30,14 @@ namespace TrackingSystem.Data
             get { return this.GetRepository<ApplicationUser>(); }
         }
 
+        public IRepository<Coordinate> Coordinates
+        {
+            get
+            {
+                return this.GetRepository<Coordinate>();
+            }
+        }
+
         private IRepository<T> GetRepository<T>() where T : class
         {
             var typeOfRepository = typeof(T);
