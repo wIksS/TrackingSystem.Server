@@ -32,7 +32,7 @@ using TrackingSystem.Models;
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { UserName = "Admin@g.c",Email = "Admin@g.c" };
+                var user = new Teacher { UserName = "Admin@g.c",Email = "Admin@g.c" };
 
                 manager.Create(user, "123456");
                 manager.AddToRole(user.Id, "Admin");

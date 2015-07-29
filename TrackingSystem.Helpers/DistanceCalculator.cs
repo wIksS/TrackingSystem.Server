@@ -5,7 +5,7 @@ using System.Web;
 using TrackingSystem.Models;
 using System.Device.Location;
 
-namespace TrackingSystem.Infrastructure
+namespace TrackingSystem.Helpers
 {
     public static class DistanceCalculator
     {

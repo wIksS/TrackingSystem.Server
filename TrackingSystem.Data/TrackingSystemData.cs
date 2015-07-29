@@ -25,9 +25,14 @@ namespace TrackingSystem.Data
             this.repositories = new Dictionary<Type, object>();
         }
 
-        public IRepository<ApplicationUser> Users
+        public IRepository<Teacher> Teachers
         {
-            get { return this.GetRepository<ApplicationUser>(); }
+            get { return this.GetRepository<Teacher>(); }
+        }
+
+        public IRepository<Student> Students
+        {
+            get { return this.GetRepository<Student>(); }
         }
 
         public IRepository<Coordinate> Coordinates

@@ -18,7 +18,13 @@ namespace TrackingSystem.Data
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<TrackingSystemDbContext, Configuration>());
         }
 
-        IDbSet<ApplicationUser> Users
+        IDbSet<Student> Students
+        {
+            get;
+            set;
+        }
+
+        IDbSet<Teacher> Teachers
         {
             get;
             set;

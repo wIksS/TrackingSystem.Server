@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TrackingSystem.Models
 {
-    public class ApplicationUser : IdentityUser
+    public abstract class ApplicationUser : IdentityUser
     {
         private ICollection<Coordinate> coordinates;
 
@@ -25,6 +25,8 @@ namespace TrackingSystem.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public abstract KeyValuePair<string,double> CalculateDistance();
 
         public virtual ICollection<Coordinate> Coordinates
         {

@@ -11,7 +11,7 @@ using TrackingSystem.ViewModels;
 using Microsoft.AspNet.Identity;
 using TrackingSystem.Models;
 using AutoMapper;
-using TrackingSystem.Infrastructure;
+using TrackingSystem.Helpers;
 
 namespace TrackingSystem.Controllers
 {
@@ -32,7 +32,16 @@ namespace TrackingSystem.Controllers
             }
 
             var userId = User.Identity.GetUserId();
-            ApplicationUser user = Data.Users.Find(userId);
+            ApplicationUser user;
+
+            if (Data.Students.All().Any(s => s.Id == userId))
+            {
+                user = Data.Students.Find(userId);
+            }
+            else
+            {
+                user = Data.Teachers.Find(userId);
+            }
 
             var dbCoordiante = Mapper.Map<Coordinate>(coordinates);
 

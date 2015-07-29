@@ -238,7 +238,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\DistanceCalculator.cs" />
     <Compile Include="Infrastructure\LocationDistanceDistributor.cs" />
     <Compile Include="ViewModels\AccountBindingModels.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -322,6 +321,10 @@
     <ProjectReference Include="..\TrackingSystem.Data\TrackingSystem.Data.csproj">
       <Project>{824cad2c-9a46-45bd-b13a-5f10046c1de2}</Project>
       <Name>TrackingSystem.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TrackingSystem.Helpers\TrackingSystem.Helpers.csproj">
+      <Project>{c437c6f9-6279-47ef-b2f9-07513702b273}</Project>
+      <Name>TrackingSystem.Helpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\TrackingSystem.Models\TrackingSystem.Models.csproj">
       <Project>{d8d4e277-91d1-4c63-b0f1-47b646461f11}</Project>

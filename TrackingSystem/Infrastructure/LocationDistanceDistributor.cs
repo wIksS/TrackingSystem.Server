@@ -5,13 +5,13 @@ using System.Web;
 using TrackingSystem.Data;
 using TrackingSystem.Models;
 
-namespace TrackingSystem.Infrastructure
+namespace TrackingSystem.Helpers
 {
     public static class LocationDistanceDistributor
     {
         public static IEnumerable<KeyValuePair<string,double>> CheckUserDistance(ITrackingSystemData data, ApplicationUser user)
         {
-            var users = data.Users.All().Where(u => u.Id != user.Id).ToList();
+            var users = data.Students.All().Where(u => u.Id != user.Id).ToList();
             var userCoordinate = user.Coordinates.Last();
 
             for (int i = 0; i < users.Count; i++)

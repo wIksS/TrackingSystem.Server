@@ -9,7 +9,12 @@ namespace TrackingSystem.Data
 {
     public interface ITrackingSystemData
     {
-        IRepository<ApplicationUser> Users
+        IRepository<Teacher> Teachers
+        {
+            get;
+        }
+
+        IRepository<Student> Students
         {
             get;
         }
