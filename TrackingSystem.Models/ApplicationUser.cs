@@ -26,7 +26,11 @@ namespace TrackingSystem.Models
             return userIdentity;
         }
 
-        public abstract KeyValuePair<string,double> CalculateDistance();
+        public virtual Group Group { get; set; }
+
+        public int? GroupId { get; set; }
+
+        public abstract IEnumerable<KeyValuePair<ApplicationUser, double>> CalculateDistance();
 
         public virtual ICollection<Coordinate> Coordinates
         {

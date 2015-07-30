@@ -35,6 +35,12 @@ namespace TrackingSystem.Data
             get { return this.GetRepository<Student>(); }
         }
 
+        public IRepository<Group> Groups
+        {
+            get { return this.GetRepository<Group>(); }
+        }
+
+
         public IRepository<Coordinate> Coordinates
         {
             get

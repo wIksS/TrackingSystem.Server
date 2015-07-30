@@ -6,10 +6,6 @@ C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Helpers\b
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Helpers\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Helpers\bin\Debug\Microsoft.AspNet.Identity.Core.dll
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Helpers\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
-C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Helpers\bin\Debug\TrackingSystem.Data.dll
-C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Helpers\bin\Debug\TrackingSystem.Models.dll
-C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Helpers\bin\Debug\TrackingSystem.Data.pdb
-C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Helpers\bin\Debug\TrackingSystem.Models.pdb
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Helpers\bin\Debug\EntityFramework.xml
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Helpers\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Helpers\bin\Debug\Microsoft.AspNet.Identity.Core.xml

@@ -30,6 +30,12 @@ namespace TrackingSystem.Data
             set;
         }
 
+        IDbSet<Group> Groups
+        {
+            get;
+            set;
+        }
+
         IDbSet<Coordinate> Coordinates
         {
             get;

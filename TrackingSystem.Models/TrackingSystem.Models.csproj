@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="Coordinate.cs" />
+    <Compile Include="Group.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="Teacher.cs" />
@@ -82,6 +83,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TrackingSystem.Helpers\TrackingSystem.Helpers.csproj">
+      <Project>{c437c6f9-6279-47ef-b2f9-07513702b273}</Project>
+      <Name>TrackingSystem.Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -24,11 +24,11 @@ namespace TrackingSystem.Controllers
         }
 
         [HttpPost]
-        public CoordinatesViewModel AddLocation(CoordinatesViewModel coordinates)
+        public ICollection<DistanceViewModel> AddLocation(CoordinatesViewModel coordinates)
         {
             if (coordinates == null)
             {
-                return null;
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, ModelState));
             }
 
             var userId = User.Identity.GetUserId();
@@ -51,9 +51,36 @@ namespace TrackingSystem.Controllers
 
             Data.Coordinates.SaveChanges();
 
-            var distances = LocationDistanceDistributor.CheckUserDistance(Data, user).ToList();
+            var distancesViewModel = new List<DistanceViewModel>();
 
-            return coordinates;
+
+            if (user.Group != null)
+            {
+                var distances = user.CalculateDistance();
+                foreach (var distance in distances)
+                {
+                    var currentUser = distance.Key;
+                    var calculatedDistance = distance.Value;
+
+                    if (user.Group != currentUser.Group)
+                    {
+                        throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "The students and teachers aren't in the same group"));
+                    }
+
+                    if (calculatedDistance > user.Group.MaxDistance)
+                    {
+                        var lastCoordinateViewModel = Mapper.Map<CoordinatesViewModel>(currentUser.Coordinates.Last());
+                        distancesViewModel.Add(new DistanceViewModel()
+                           {
+                               Coordinate = lastCoordinateViewModel,
+                               Distance = calculatedDistance,
+                               User = Mapper.Map<ApplicationUserViewModel>(currentUser)
+                           });
+                    }
+                }
+            }
+
+            return distancesViewModel;
         }
 
         [AllowAnonymous]

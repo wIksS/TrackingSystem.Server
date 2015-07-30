@@ -19,6 +19,11 @@ namespace TrackingSystem.Data
             get;
         }
 
+        IRepository<Group> Groups
+        {
+            get;
+        }
+
         IRepository<Coordinate> Coordinates
         {
             get;

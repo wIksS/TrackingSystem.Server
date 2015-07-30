@@ -12,7 +12,11 @@ namespace TrackingSystem.App_Start
     {
         public static void RegisterMappings()
         {
-            Mapper.CreateMap<CoordinatesViewModel,Coordinate>();
+            Mapper.CreateMap<CoordinatesViewModel,Coordinate>().ReverseMap();
+            Mapper.CreateMap<ApplicationUser, ApplicationUserViewModel>().ReverseMap();
+            Mapper.CreateMap<Student, ApplicationUserViewModel>().ReverseMap();
+            Mapper.CreateMap<Teacher, ApplicationUserViewModel>().ReverseMap();
+
         }
     }
 }

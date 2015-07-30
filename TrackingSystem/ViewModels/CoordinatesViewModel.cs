@@ -43,7 +43,7 @@ namespace TrackingSystem.ViewModels
             set;
         }
 
-        public int  Heading
+        public int?  Heading
         {
             get;
             set;
