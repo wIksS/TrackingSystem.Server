@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Claims;
@@ -17,23 +18,26 @@ using TrackingSystem.Models;
 using TrackingSystem.Providers;
 using TrackingSystem.Results;
 using System.Web.Http.Cors;
+using TrackingSystem.Data;
 
 namespace TrackingSystem.Controllers
 {
     //[EnableCors(origins: "*", headers: "*", methods: "*")]
     [Authorize]
     [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
+    public class AccountController : BaseController
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccountController(ITrackingSystemData data)
+            : base(data)
         {
         }
 
         public AccountController(ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat, ITrackingSystemData data)
+            : base(data)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
@@ -349,6 +353,68 @@ namespace TrackingSystem.Controllers
             }
 
             return Ok();
+        }
+
+        //[HttpPost]
+        //[Authorize(Roles = "Admin")]
+        //[Route("AddRole")]
+        //public IHttpActionResult AddRole(string userName, string roleName)
+        //{
+        //    ApplicationUser userDb = this.Data.Users.All().FirstOrDefault(u => u.UserName == userName);
+
+        //    if (userDb == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    if (roleName == "Teacher")
+        //    {
+        //        var teacher = this.Data.Teachers.All().FirstOrDefault(t => t.Email == userDb.Email);
+        //        if (teacher == null)
+        //        {
+        //            return BadRequest("Teacher not found. You need to register a teacher with email " + userDb.UserName + " in order to make this user a teacher!");
+        //        }
+
+        //        userDb.Teacher = teacher;
+
+        //        this.Data.Users.SaveChanges();
+        //    }
+
+        //    ApplicationUser user = this.UserManager.Users.FirstOrDefault(u => u.UserName == userName);
+        //    this.UserManager.AddToRole(user.Id, roleName);
+
+        //    return Ok("Role created successfully !");
+        //}
+
+        //[HttpDelete]
+        //[Authorize(Roles = "Admin")]
+        //[Route("DeleteRole")]
+        //public IHttpActionResult DeleteRole(string userName, string roleName)
+        //{
+        //    ApplicationUser user = this.UserManager.Users.FirstOrDefault(u => u.UserName == userName);
+        //    if (user == null)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    this.UserManager.RemoveFromRole(user.Id, roleName);
+
+        //    return Ok("Role deleted successfully !");
+        //}
+
+        [HttpGet]
+        [Authorize]
+        [Route("Role")]
+        public ICollection<string> GetRoles()
+        {
+            var userId = User.Identity.GetUserId();
+            ApplicationUser user = this.UserManager.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null)
+            {
+                return null;
+            }
+
+            return this.UserManager.GetRoles(userId);
         }
 
         // POST api/Account/RegisterExternal
