@@ -15,7 +15,7 @@ namespace TrackingSystem.Helpers
 
             var distance = geoCoordFirst.GetDistanceTo(geoCoordSecond);
          
-           // return distance;
+            return distance;
 
             var R = 6371000; // earths diameter metres
             var latRadian1 = DegreeToRadian(lat1);

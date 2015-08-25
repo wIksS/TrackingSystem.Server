@@ -56,7 +56,7 @@ namespace TrackingSystem.Controllers
 
             if (user.Group != null)
             {
-                var distances = user.CalculateDistance();
+                var distances = user.CalculateDistance().ToList();
                 foreach (var distance in distances)
                 {
                     var currentUser = distance.Key;

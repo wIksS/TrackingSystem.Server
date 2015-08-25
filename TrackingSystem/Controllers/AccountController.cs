@@ -19,6 +19,7 @@ using TrackingSystem.Providers;
 using TrackingSystem.Results;
 using System.Web.Http.Cors;
 using TrackingSystem.Data;
+using System.Net;
 
 namespace TrackingSystem.Controllers
 {
@@ -29,6 +30,11 @@ namespace TrackingSystem.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
+
+        public AccountController()
+            : base(new TrackingSystemData())
+        {
+        }
 
         public AccountController(ITrackingSystemData data)
             : base(data)
@@ -56,6 +62,16 @@ namespace TrackingSystem.Controllers
         }
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
+
+
+        [AllowAnonymous]
+        public HttpResponseMessage Options()
+        {
+            return new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK
+            };
+        }
 
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
@@ -403,8 +419,8 @@ namespace TrackingSystem.Controllers
         //}
 
         [HttpGet]
-        [Authorize]
-        [Route("Role")]
+        //[Authorize]
+        [Route("GetRoles")]
         public ICollection<string> GetRoles()
         {
             var userId = User.Identity.GetUserId();

@@ -9,33 +9,14 @@ namespace TrackingSystem.Models
 {
     public class Teacher : ApplicationUser
     {
-        private ICollection<Student> students;
-
-        public Teacher()
-        {
-            this.Students = new HashSet<Student>();
-        }
-
-        public virtual ICollection<Student> Students
-        {
-            get
-            {
-                return this.students;
-            }
-            set
-            {
-                this.students = value;
-            }
-        }
-
         public override IEnumerable<KeyValuePair<ApplicationUser, double>> CalculateDistance()
         {
-            var teacherLastCoordinate = this.Coordinates.Last();
+            var teacherLastCoordinate = this.Coordinates.LastOrDefault();
             if (teacherLastCoordinate != null)
             {
-                foreach (var student in this.Students)
+                foreach (var student in this.Group.Students)
                 {
-                    var studentLastCoordinate = student.Coordinates.Last();
+                    var studentLastCoordinate = student.Coordinates.LastOrDefault();
 
                     if (studentLastCoordinate != null && teacherLastCoordinate != null)
                     {
