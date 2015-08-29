@@ -23,6 +23,32 @@ namespace TrackingSystem.Controllers
         {
         }
 
+        [HttpPut]
+        public HttpResponseMessage StopExcursion()
+        {
+            var userId = User.Identity.GetUserId();
+            ApplicationUser user;
+
+            if (Data.Students.All().Any(s => s.Id == userId))
+            {
+                user = Data.Students.Find(userId);
+            }
+            else
+            {
+                user = Data.Teachers.Find(userId);
+            }
+
+            user.IsInExcursion = false;
+
+            Data.Teachers.SaveChanges();
+            Data.Students.SaveChanges();
+
+            return new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK
+            };
+        }
+
         [HttpPost]
         public ICollection<DistanceViewModel> AddLocation(CoordinatesViewModel coordinates)
         {
@@ -42,6 +68,8 @@ namespace TrackingSystem.Controllers
             {
                 user = Data.Teachers.Find(userId);
             }
+
+            user.IsInExcursion = true;
 
             var dbCoordiante = Mapper.Map<Coordinate>(coordinates);
 
@@ -67,15 +95,18 @@ namespace TrackingSystem.Controllers
                         throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "The students and teachers aren't in the same group"));
                     }
 
-                    if (calculatedDistance > user.Group.MaxDistance)
+                    if (!user.IsInExcursion == false || !currentUser.IsInExcursion == false)
                     {
-                        var lastCoordinateViewModel = Mapper.Map<CoordinatesViewModel>(currentUser.Coordinates.Last());
-                        distancesViewModel.Add(new DistanceViewModel()
-                           {
-                               Coordinate = lastCoordinateViewModel,
-                               Distance = calculatedDistance,
-                               User = Mapper.Map<ApplicationUserViewModel>(currentUser)
-                           });
+                        if (calculatedDistance > user.Group.MaxDistance)
+                        {
+                            var lastCoordinateViewModel = Mapper.Map<CoordinatesViewModel>(currentUser.Coordinates.Last());
+                            distancesViewModel.Add(new DistanceViewModel()
+                               {
+                                   Coordinate = lastCoordinateViewModel,
+                                   Distance = calculatedDistance,
+                                   User = Mapper.Map<ApplicationUserViewModel>(currentUser)
+                               });
+                        }
                     }
                 }
             }

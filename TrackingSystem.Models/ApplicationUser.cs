@@ -26,6 +26,8 @@ namespace TrackingSystem.Models
             return userIdentity;
         }
 
+        public bool? IsInExcursion { get; set; }
+
         public virtual Group Group { get; set; }
 
         public int? GroupId { get; set; }
