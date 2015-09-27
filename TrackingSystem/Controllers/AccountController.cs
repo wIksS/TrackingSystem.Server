@@ -20,6 +20,8 @@ using TrackingSystem.Results;
 using System.Web.Http.Cors;
 using TrackingSystem.Data;
 using System.Net;
+using System.Web.Security;
+using TrackingSystem.ViewModels;
 
 namespace TrackingSystem.Controllers
 {
@@ -351,9 +353,12 @@ namespace TrackingSystem.Controllers
             }
 
             ApplicationUser user;
+            var isTeacher = false;
+
             if (model.IsTeacher)
             {
                 user = new Teacher() { UserName = model.Email, Email = model.Email };
+                isTeacher = true;
             }
             else
             {
@@ -368,58 +373,87 @@ namespace TrackingSystem.Controllers
                 return GetErrorResult(result);
             }
 
+            if (isTeacher)
+            {
+                this.UserManager.AddToRole(user.Id, "Teacher");
+            }
+
             return Ok();
         }
 
-        //[HttpPost]
-        //[Authorize(Roles = "Admin")]
-        //[Route("AddRole")]
-        //public IHttpActionResult AddRole(string userName, string roleName)
-        //{
-        //    ApplicationUser userDb = this.Data.Users.All().FirstOrDefault(u => u.UserName == userName);
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        [Route("Users")]
+        public IHttpActionResult GetAllUsers()
+        {
+            var usersViewModel = new List<UserViewModel>();
+            foreach (var user in this.Data.Users.All().ToList())
+            {
+                if (user.Id != User.Identity.GetUserId())
+                {
+                    usersViewModel.Add(new UserViewModel()
+                    {
+                        UserName = user.UserName,
+                        Roles = this.UserManager.GetRoles(user.Id)
+                    });
+                }
+            }
 
-        //    if (userDb == null)
-        //    {
-        //        return BadRequest();
-        //    }
+            return Ok(usersViewModel);
+        }
 
-        //    if (roleName == "Teacher")
-        //    {
-        //        var teacher = this.Data.Teachers.All().FirstOrDefault(t => t.Email == userDb.Email);
-        //        if (teacher == null)
-        //        {
-        //            return BadRequest("Teacher not found. You need to register a teacher with email " + userDb.UserName + " in order to make this user a teacher!");
-        //        }
+        [HttpDelete]
+        [Authorize(Roles = "Admin")]
+        [Route("DeleteUser")]
+        public IHttpActionResult DeleteUser(string userName)
+        {
+            ApplicationUser user = this.UserManager.Users.FirstOrDefault(u => u.UserName == userName);
+            if (user == null)
+            {
+                return BadRequest();
+            }
 
-        //        userDb.Teacher = teacher;
+            this.UserManager.Delete(user);
 
-        //        this.Data.Users.SaveChanges();
-        //    }
+            return Ok("Successfuly deleted user !");
+        }
 
-        //    ApplicationUser user = this.UserManager.Users.FirstOrDefault(u => u.UserName == userName);
-        //    this.UserManager.AddToRole(user.Id, roleName);
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [Route("AddRole")]
+        public IHttpActionResult AddRole(string userName, string roleName)
+        {
+            ApplicationUser userDb = this.Data.Users.All().FirstOrDefault(u => u.UserName == userName);
 
-        //    return Ok("Role created successfully !");
-        //}
+            if (userDb == null)
+            {
+                return BadRequest();
+            }
 
-        //[HttpDelete]
-        //[Authorize(Roles = "Admin")]
-        //[Route("DeleteRole")]
-        //public IHttpActionResult DeleteRole(string userName, string roleName)
-        //{
-        //    ApplicationUser user = this.UserManager.Users.FirstOrDefault(u => u.UserName == userName);
-        //    if (user == null)
-        //    {
-        //        return BadRequest();
-        //    }
+            ApplicationUser user = this.UserManager.Users.FirstOrDefault(u => u.UserName == userName);
+            this.UserManager.AddToRole(user.Id, roleName);
 
-        //    this.UserManager.RemoveFromRole(user.Id, roleName);
+            return Ok("Role created successfully !");
+        }
 
-        //    return Ok("Role deleted successfully !");
-        //}
+        [HttpDelete]
+        [Authorize(Roles = "Admin")]
+        [Route("DeleteRole")]
+        public IHttpActionResult DeleteRole(string userName, string roleName)
+        {
+            ApplicationUser user = this.UserManager.Users.FirstOrDefault(u => u.UserName == userName);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            this.UserManager.RemoveFromRole(user.Id, roleName);
+
+            return Ok("Role deleted successfully !");
+        }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [Route("GetRoles")]
         public ICollection<string> GetRoles()
         {

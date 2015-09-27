@@ -29,7 +29,7 @@ namespace TrackingSystem.Controllers
 
             var teacher = Data.Teachers.Find(teacherId);
 
-            var students = Data.Students.All().Cast<ApplicationUser>().ToList();
+            var students = Data.Students.All().Where(s => s.Group != teacher.Group).Cast<ApplicationUser>().ToList();
             var studentsViewModel = Mapper.Map<List<ApplicationUser>, List<ApplicationUserViewModel>>(students);
 
             return studentsViewModel;

@@ -5,6 +5,13 @@ namespace TrackingSystem.Models
 {
     // Models returned by AccountController actions.
 
+    public class UserViewModel
+    {
+        public string UserName { get; set; }
+
+        public ICollection<String> Roles { get; set; }
+    }
+
     public class ExternalLoginViewModel
     {
         public string Name { get; set; }

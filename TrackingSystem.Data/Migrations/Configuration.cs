@@ -28,6 +28,16 @@ using TrackingSystem.Models;
                 manager.Create(roleAdmin);
             }
 
+
+            if (!context.Roles.Any(r => r.Name == "Teacher"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var roleTeacher = new IdentityRole { Name = "Teacher" };
+
+                manager.Create(roleTeacher);
+            }
+
             if (!context.Users.Any(u => u.UserName == "Admin@g.c"))
             {
                 var store = new UserStore<ApplicationUser>(context);
