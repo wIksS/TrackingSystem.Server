@@ -29,8 +29,6 @@ C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\obj\
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\obj\Debug\TrackingSystem.Data.pdb
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\obj\Debug\TrackingSystem.Data.Migrations.InitialCreate.resources
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\obj\Debug\TrackingSystem.Data.csproj.GenerateResource.Cache
-C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\obj\Debug\TrackingSystem.Data.Migrations.InitialCreate.resources
-C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\obj\Debug\TrackingSystem.Data.csproj.GenerateResource.Cache
 C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\bin\Debug\TrackingSystem.Data.dll.config
 C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\bin\Debug\TrackingSystem.Data.dll
 C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\bin\Debug\TrackingSystem.Data.pdb
@@ -62,3 +60,5 @@ C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\
 C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\bin\Debug\Newtonsoft.Json.xml
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\bin\Debug\TrackingSystem.Helpers.dll
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\bin\Debug\TrackingSystem.Helpers.pdb
+C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\bin\Debug\TrackingSystem.Helpers.dll
+C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\bin\Debug\TrackingSystem.Helpers.pdb
