@@ -162,3 +162,5 @@ C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\Ninje
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\Ninject.Web.Mvc.xml
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\TrackingSystem.Helpers.dll
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\TrackingSystem.Helpers.pdb
+C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem\bin\TrackingSystem.Helpers.dll
+C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem\bin\TrackingSystem.Helpers.pdb

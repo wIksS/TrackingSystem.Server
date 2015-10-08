@@ -14,7 +14,6 @@ using TrackingSystem.Models;
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
-            ContextKey = "TrackingSystem.Data.TrackingSystemDbContext";
         }
 
         protected override void Seed(TrackingSystem.Data.TrackingSystemDbContext context)
