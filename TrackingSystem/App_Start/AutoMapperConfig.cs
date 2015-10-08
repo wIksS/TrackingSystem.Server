@@ -16,7 +16,7 @@ namespace TrackingSystem.App_Start
             Mapper.CreateMap<ApplicationUser, ApplicationUserViewModel>().ReverseMap();
             Mapper.CreateMap<Student, ApplicationUserViewModel>().ReverseMap();
             Mapper.CreateMap<Teacher, ApplicationUserViewModel>().ReverseMap();
-
+            Mapper.CreateMap<Group, GroupViewModel>().ReverseMap();
         }
     }
 }

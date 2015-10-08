@@ -232,6 +232,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Constants.cs" />
     <Compile Include="ViewModels\AccountBindingModels.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -248,6 +250,7 @@
     <Compile Include="ViewModels\ApplicationUserViewModel.cs" />
     <Compile Include="ViewModels\CoordinatesViewModel.cs" />
     <Compile Include="ViewModels\DistanceViewModel.cs" />
+    <Compile Include="ViewModels\GroupViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -309,7 +312,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Infrastructure\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>

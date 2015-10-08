@@ -23,31 +23,6 @@ namespace TrackingSystem.Controllers
         {
         }
 
-        [HttpPut]
-        public HttpResponseMessage StopExcursion()
-        {
-            var userId = User.Identity.GetUserId();
-            ApplicationUser user;
-
-            if (Data.Students.All().Any(s => s.Id == userId))
-            {
-                user = Data.Students.Find(userId);
-            }
-            else
-            {
-                user = Data.Teachers.Find(userId);
-            }
-
-            user.IsInExcursion = false;
-
-            Data.Teachers.SaveChanges();
-            Data.Students.SaveChanges();
-
-            return new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK
-            };
-        }
 
         [HttpPost]
         public ICollection<DistanceViewModel> AddLocation(CoordinatesViewModel coordinates)

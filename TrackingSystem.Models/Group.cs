@@ -33,6 +33,6 @@ namespace TrackingSystem.Models
 
         public int TeacherId { get; set; }
 
-        public double MaxDistance { get; set; }
+        public int MaxDistance { get; set; }
     }
 }
