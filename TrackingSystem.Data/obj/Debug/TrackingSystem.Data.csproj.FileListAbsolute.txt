@@ -27,8 +27,6 @@ C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\bin\
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\obj\Debug\TrackingSystem.Data.csprojResolveAssemblyReference.cache
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\obj\Debug\TrackingSystem.Data.dll
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\obj\Debug\TrackingSystem.Data.pdb
-C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\obj\Debug\TrackingSystem.Data.Migrations.InitialCreate.resources
-C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem.Data\obj\Debug\TrackingSystem.Data.csproj.GenerateResource.Cache
 C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\bin\Debug\TrackingSystem.Data.dll.config
 C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\bin\Debug\TrackingSystem.Data.dll
 C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem.Data\bin\Debug\TrackingSystem.Data.pdb
