@@ -164,3 +164,4 @@ C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\Track
 C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\TrackingSystem.Helpers.pdb
 C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem\bin\TrackingSystem.Helpers.dll
 C:\Users\Viktor\Desktop\TrackingSystem\TrackingSystemServer\TrackingSystem\bin\TrackingSystem.Helpers.pdb
+C:\Users\viktor.d\Desktop\TrackingSystem\TrackingSystem\TrackingSystem\bin\Images\unknown.jpg
