@@ -9,6 +9,7 @@ using System.Web.Http;
 using TrackingSystem.Models;
 using Microsoft.AspNet.Identity;
 using System.Net.Http.Headers;
+using TrackingSystem.Infrastructure;
 
 namespace TrackingSystem.Controllers
 {
@@ -20,6 +21,7 @@ namespace TrackingSystem.Controllers
         {
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
@@ -35,21 +37,26 @@ namespace TrackingSystem.Controllers
                 user = Data.Teachers.All().First(t => t.UserName == userName);
             }
 
+            string fileName;
+
             if (user.ImageUrl != null)
             {
-                string fileName = user.ImageUrl;
-                if (!File.Exists(fileName))
-                    throw new HttpResponseException(HttpStatusCode.NotFound);
-
-                FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                HttpResponseMessage response = new HttpResponseMessage { Content = new StreamContent(fileStream) };
-                response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
-                response.Content.Headers.ContentLength = fileStream.Length;
-
-                return response;                
+                fileName = user.ImageUrl;
+            }
+            else
+            {
+                fileName = HttpContext.Current.Server.MapPath(AppConstants.UnkownImagePath);
             }
 
-            return null;
+            if (!File.Exists(fileName))
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+
+            FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            HttpResponseMessage response = new HttpResponseMessage { Content = new StreamContent(fileStream) };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
+            response.Content.Headers.ContentLength = fileStream.Length;
+
+            return response;                
         }
 
         [HttpPost]
@@ -77,7 +84,7 @@ namespace TrackingSystem.Controllers
                     // Validate the uploaded image(optional)
 
                     // Get the complete file path
-                    var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Images"), httpPostedFile.FileName);
+                    var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Images"), httpPostedFile.FileName + user.UserName + ".jpg");
 
                     // Save the uploaded file to "UploadedFiles" folder
                     httpPostedFile.SaveAs(fileSavePath);
