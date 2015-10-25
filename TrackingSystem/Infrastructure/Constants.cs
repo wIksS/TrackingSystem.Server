@@ -9,6 +9,6 @@ namespace TrackingSystem.Infrastructure
     {
         public const int MaxDistance = 50;
 
-        public const string UnkownImagePath = "~/Images/unknown.jpg";
+        public const string UnkownImagePath = "~/Content/unknown.jpg";
     }
 }
