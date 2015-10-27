@@ -23,6 +23,30 @@ namespace TrackingSystem.Controllers
         {
         }
 
+        [HttpGet]
+        public CoordinatesViewModel GetLocation(string id)
+        {
+            string userName = id;
+            ApplicationUser user;
+
+            if (Data.Students.All().Any(s => s.UserName == userName))
+            {
+                user = Data.Students.All().First(s => s.UserName == userName);
+            }
+            else
+            {
+                user = Data.Teachers.All().First(t => t.UserName == userName);
+            }
+
+            if (user.Coordinates.Count == 0)
+            {
+                return null;
+            }
+
+            var coord = Mapper.Map<CoordinatesViewModel>(user.Coordinates.Last());
+
+            return coord;
+        }
 
         [HttpPost]
         public ICollection<DistanceViewModel> AddLocation(CoordinatesViewModel coordinates)
@@ -47,6 +71,7 @@ namespace TrackingSystem.Controllers
             user.IsInExcursion = true;
 
             var dbCoordiante = Mapper.Map<Coordinate>(coordinates);
+            dbCoordiante.Date = DateTime.Now;
 
             Data.Coordinates.Add(dbCoordiante);
             user.Coordinates.Add(dbCoordiante);

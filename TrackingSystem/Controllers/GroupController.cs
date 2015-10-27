@@ -18,6 +18,7 @@ using TrackingSystem.Infrastructure;
 namespace TrackingSystem.Controllers
 {
     [Authorize]
+    [RoutePrefix("api/Group")]
     public class GroupController : BaseController
     {
         public GroupController()
@@ -46,11 +47,55 @@ namespace TrackingSystem.Controllers
             return groupViewModel;
         }
 
-        [HttpGet]
+        [Route("GetStudentsInGroup")]
+        public ICollection<ApplicationUserViewModel> GetStudentsInGroup()
+        {
+            var userId = User.Identity.GetUserId();
+            ApplicationUser user = user = Data.Teachers.Find(userId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var students = user.Group.Students.Cast<ApplicationUser>().ToList();
+
+            var studentsViewModel = Mapper.Map<List<ApplicationUser>, List<ApplicationUserViewModel>>(students);
+
+            return studentsViewModel;
+        }
+
+        [Route("RemoveFromGroup")]
+        public IHttpActionResult RemoveFromGroup([FromUri]string id)
+        {
+            string userName = id;
+            Student user = Data.Students.All().First(s => s.UserName == userName); ;
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            if (user.Group != null)
+            {
+                var group = user.Group;
+
+                user.Group = null;
+                user.GroupId = null;
+
+                group.Students.Remove(user);
+                Data.Students.SaveChanges();
+            }
+
+            return Ok();
+        }
+
+        [Route("GetGroup")]
         public GroupViewModel GetGroup()
         {
             var userId = User.Identity.GetUserId();
             ApplicationUser user;
+            bool isTeacher = false;
 
             if (Data.Students.All().Any(s => s.Id == userId))
             {
@@ -59,15 +104,18 @@ namespace TrackingSystem.Controllers
             else
             {
                 user = Data.Teachers.Find(userId);
+                isTeacher = true;
             }
 
             var group = user.Group;
 
-            if (group == null)
+            if (group == null && isTeacher)
             {
                 group = new Group()
                 {
-                    MaxDistance = AppConstants.MaxDistance,                    
+                    MaxDistance = AppConstants.MaxDistance,
+                    Teacher = user as Teacher,
+                    TeacherId = user.Id
                 };
 
                 this.Data.Groups.Add(group);

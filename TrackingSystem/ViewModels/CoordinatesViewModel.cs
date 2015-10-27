@@ -6,7 +6,13 @@ using System.Web;
 namespace TrackingSystem.ViewModels
 {
     public class CoordinatesViewModel
-    {   
+    {
+        public DateTime Date
+        {
+            get;
+            set;
+        }
+
         public double Accuracy
         {
             get;

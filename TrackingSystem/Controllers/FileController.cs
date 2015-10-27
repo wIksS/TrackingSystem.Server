@@ -49,7 +49,7 @@ namespace TrackingSystem.Controllers
             }
 
             if (!File.Exists(fileName))
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                fileName = HttpContext.Current.Server.MapPath(AppConstants.UnkownImagePath);
 
             FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
             HttpResponseMessage response = new HttpResponseMessage { Content = new StreamContent(fileStream) };

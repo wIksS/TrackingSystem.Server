@@ -31,7 +31,7 @@ namespace TrackingSystem.Models
 
         public virtual Teacher Teacher { get; set; }
 
-        public int TeacherId { get; set; }
+        public string TeacherId { get; set; }
 
         public int MaxDistance { get; set; }
     }

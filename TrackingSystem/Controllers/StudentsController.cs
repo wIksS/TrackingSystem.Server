@@ -30,7 +30,7 @@ namespace TrackingSystem.Controllers
             var teacher = Data.Teachers.Find(teacherId);
 
             var students = Data.Students.All().
-                           Where(s => (s.GroupId != teacher.GroupId || teacher.GroupId == null)).
+                           Where(s => s.GroupId == null).
                            Cast<ApplicationUser>().ToList();
 
             var studentsViewModel = Mapper.Map<List<ApplicationUser>, List<ApplicationUserViewModel>>(students);
