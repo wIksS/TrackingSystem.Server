@@ -34,5 +34,10 @@ namespace TrackingSystem.Data
             get;
         }
 
+        IRepository<Event> Events
+        {
+            get;
+        }
+
     }
 }

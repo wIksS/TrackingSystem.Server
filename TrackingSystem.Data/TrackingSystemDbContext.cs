@@ -48,6 +48,11 @@ namespace TrackingSystem.Data
             set;
         }
 
+        IDbSet<Event> Events
+        {
+            get;
+            set;
+        }
 
         public static TrackingSystemDbContext Create()
         {

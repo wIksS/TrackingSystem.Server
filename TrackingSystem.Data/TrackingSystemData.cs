@@ -54,6 +54,14 @@ namespace TrackingSystem.Data
             }
         }
 
+        public IRepository<Event> Events
+        {
+            get
+            {
+                return this.GetRepository<Event>();
+            }
+        }
+
         private IRepository<T> GetRepository<T>() where T : class
         {
             var typeOfRepository = typeof(T);

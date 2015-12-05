@@ -7,6 +7,8 @@ namespace TrackingSystem.ViewModels
 {
     public class GroupViewModel
     {
+        public int Id { get; set; }
+
         public int MaxDistance { get; set; }
 
     }
