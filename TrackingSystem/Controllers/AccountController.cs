@@ -22,6 +22,7 @@ using TrackingSystem.Data;
 using System.Net;
 using System.Web.Security;
 using TrackingSystem.ViewModels;
+using AutoMapper;
 
 namespace TrackingSystem.Controllers
 {
@@ -149,7 +150,7 @@ namespace TrackingSystem.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -282,9 +283,9 @@ namespace TrackingSystem.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -357,12 +358,12 @@ namespace TrackingSystem.Controllers
 
             if (model.IsTeacher)
             {
-                user = new Teacher() { UserName = model.Email, Email = model.Email };
+                user = new Teacher() { UserName = model.Email, Email = model.Email, Phone = model.Phone };
                 isTeacher = true;
             }
             else
             {
-                user = new Student() { UserName = model.Email, Email = model.Email };
+                user = new Student() { UserName = model.Email, Email = model.Email, Phone = model.Phone };
             }
 
 
@@ -383,6 +384,34 @@ namespace TrackingSystem.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
+        [Route("GetUser")]
+        public IHttpActionResult GetUser(string id)
+        {
+            ApplicationUser user = Data.Users.Find(id);
+            var userViewModel = Mapper.Map<ApplicationUserViewModel>(user);
+
+            return Ok(userViewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [Route("UpdateUser")]
+        public IHttpActionResult UpdateUser(RegisterBindingModel model)
+        {
+            ApplicationUser user = Data.Users.Find(model.Id);
+            if (user != null)
+            {
+                user.Email = model.Email;
+
+                UserManager.Update(user);
+                UserManager.ChangePassword(model.Id, user.PasswordHash,model.Password);
+            }
+
+            return Ok(user);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("Users")]
         public IHttpActionResult GetAllUsers()
         {
@@ -394,6 +423,7 @@ namespace TrackingSystem.Controllers
                     usersViewModel.Add(new UserViewModel()
                     {
                         UserName = user.UserName,
+                        Id = user.Id,
                         Roles = this.UserManager.GetRoles(user.Id)
                     });
                 }
@@ -433,6 +463,44 @@ namespace TrackingSystem.Controllers
             ApplicationUser user = this.UserManager.Users.FirstOrDefault(u => u.UserName == userName);
             this.UserManager.AddToRole(user.Id, roleName);
 
+            // this is a hack for changing the whole role of an user. It is needed because it is needed to cast a derrived class to derrived class, which is impossible and to do that i ahve to delete the entities
+            if (userDb is Student && roleName == "Teacher")
+            {
+                var coordinates = user.Coordinates;
+                var coordinatesList = coordinates.ToList();
+                for (int i = 0; i < coordinatesList.Count; i++)
+                {
+                    coordinatesList[i].User = null;
+                }
+
+                var group = user.Group;
+                var image = user.ImageUrl;
+                user.Group = null;
+
+                this.UserManager.Delete(user);
+
+                var curTteacher = new Teacher() { UserName = user.Email, Email = user.Email, PasswordHash = user.PasswordHash };
+
+                curTteacher.Coordinates = coordinates;
+                curTteacher.ImageUrl = image;
+
+                if (group != null)
+                {
+                    curTteacher.Group = group;
+                    curTteacher.GroupId = group.Id;
+                }
+
+                UserManager.Create(curTteacher);
+                UserManager.AddToRole(curTteacher.Id, "Teacher");
+
+                for (int i = 0; i < coordinatesList.Count; i++)
+                {
+                    coordinatesList[i].User = curTteacher;
+                }
+
+                Data.Coordinates.SaveChanges();
+            }
+
             return Ok("Role created successfully !");
         }
 
@@ -448,6 +516,40 @@ namespace TrackingSystem.Controllers
             }
 
             this.UserManager.RemoveFromRole(user.Id, roleName);
+            if (user is Teacher && roleName == "Teacher")
+            {
+                var coordinates = user.Coordinates;
+                var coordinatesList = coordinates.ToList();
+                for (int i = 0; i < coordinatesList.Count; i++)
+                {
+                    coordinatesList[i].User = null;
+                }
+
+                var group = user.Group;
+                var image = user.ImageUrl;
+                user.Group = null;
+
+                this.UserManager.Delete(user);
+
+                var curStudent = new Student() { UserName = user.Email, Email = user.Email, PasswordHash = user.PasswordHash };
+
+                curStudent.Coordinates = coordinates;
+                curStudent.ImageUrl = image;
+                if (group != null)
+                {
+                    curStudent.Group = group;
+                    curStudent.GroupId = group.Id;
+                }
+
+                UserManager.Create(curStudent);
+                for (int i = 0; i < coordinatesList.Count; i++)
+                {
+                    coordinatesList[i].User = curStudent;
+                }
+
+                Data.Coordinates.SaveChanges();
+
+            }
 
             return Ok("Role deleted successfully !");
         }

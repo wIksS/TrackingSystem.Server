@@ -11,6 +11,7 @@ using Owin;
 using TrackingSystem.Providers;
 using TrackingSystem.Models;
 using TrackingSystem.Data;
+using Microsoft.Owin.Cors;
 
 namespace TrackingSystem
 {
@@ -23,6 +24,8 @@ namespace TrackingSystem
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            app.UseCors(CorsOptions.AllowAll);
+
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(TrackingSystemDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);

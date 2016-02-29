@@ -27,11 +27,18 @@ namespace TrackingSystem.Controllers
         }
 
         [HttpPost]
-        public GroupViewModel ChangeGroupDistance([FromUri]int newDistance)
+        public IHttpActionResult ChangeGroupDistance([FromUri]int newDistance, [FromUri]string id)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = id;
+            if (userId == null)
+            {
+                userId = User.Identity.GetUserId();
+            }
+            if (Data.Teachers.All().FirstOrDefault(t => t.Id == userId) == null)
+            {
+                return BadRequest("You can set the tracking distance only for a teacher");
+            }
             ApplicationUser user = Data.Teachers.Find(userId);
-
             var group = user.Group;
 
             if (group == null)
@@ -44,16 +51,21 @@ namespace TrackingSystem.Controllers
 
             var groupViewModel = Mapper.Map<GroupViewModel>(group);
 
-            return groupViewModel;
+            return Ok(groupViewModel);
         }
 
         [Route("GetStudentsInGroup")]
-        public ICollection<ApplicationUserViewModel> GetStudentsInGroup()
+        public ICollection<ApplicationUserViewModel> GetStudentsInGroup(string id = null)
         {
-            var userId = User.Identity.GetUserId();
-            ApplicationUser user = user = Data.Teachers.Find(userId);
+            var userId = id;
+            if (userId == null)
+            {
+                userId = User.Identity.GetUserId();
+            }
 
-            if (user == null)
+            ApplicationUser user = Data.Users.Find(userId);
+
+            if (user == null || user.Group == null)
             {
                 return null;
             }

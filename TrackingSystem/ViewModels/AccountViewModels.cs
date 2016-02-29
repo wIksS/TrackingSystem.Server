@@ -9,6 +9,10 @@ namespace TrackingSystem.Models
     {
         public string UserName { get; set; }
 
+        public string Id { get; set; }
+
+        public bool? IsInExcursion { get; set; }
+
         public ICollection<String> Roles { get; set; }
     }
 

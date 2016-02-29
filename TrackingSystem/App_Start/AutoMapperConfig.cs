@@ -14,6 +14,7 @@ namespace TrackingSystem.App_Start
         {
             Mapper.CreateMap<CoordinatesViewModel,Coordinate>().ReverseMap();
             Mapper.CreateMap<ApplicationUser, ApplicationUserViewModel>().ReverseMap();
+            Mapper.CreateMap<ApplicationUser, TeacherViewModel>().ReverseMap();
             Mapper.CreateMap<Student, ApplicationUserViewModel>().ReverseMap();
             Mapper.CreateMap<Teacher, ApplicationUserViewModel>().ReverseMap();
             Mapper.CreateMap<Group, GroupViewModel>().ReverseMap();

@@ -30,6 +30,8 @@ namespace TrackingSystem.Models
 
         public string ImageUrl{ get; set; }
 
+        public string Phone { get; set; }
+
         public bool? IsInExcursion { get; set; }
 
         public virtual Group Group { get; set; }
