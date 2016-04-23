@@ -249,6 +249,7 @@
     </Compile>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
+    <Compile Include="Controllers\PathController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -340,6 +341,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Events\" />
+    <Folder Include="Views\Path\" />
     <Folder Include="Views\Teacher\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
