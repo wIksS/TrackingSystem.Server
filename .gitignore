@@ -1,0 +1,14 @@
+packages
+bin
+obj
+TrackingSystem/bin
+TrackingSystem/obj
+
+TrackingSystem.Data/bin
+TrackingSystem.Data/obj
+
+TrackingSystem.Helpers/bin
+TrackingSystem.Helpers/obj
+
+TrackingSystem.Models/bin
+TrackingSystem.Models/obj
