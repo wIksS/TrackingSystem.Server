@@ -27,13 +27,10 @@ namespace TrackingSystem.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult ChangeGroupDistance([FromUri]int newDistance, [FromUri]string id)
-        {
-            var userId = id;
-            if (userId == null)
-            {
-                userId = User.Identity.GetUserId();
-            }
+        public IHttpActionResult ChangeGroupDistance([FromUri]int newDistance)
+        {            
+            var userId = User.Identity.GetUserId();
+            
             if (Data.Teachers.All().FirstOrDefault(t => t.Id == userId) == null)
             {
                 return BadRequest("You can set the tracking distance only for a teacher");
