@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D8D4E277-91D1-4C63-B0F1-47B646461F11}</ProjectGuid>
+    <ProjectGuid>{83A2CBD9-E165-4A9C-BE24-9FC703DEA5E8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TrackingSystem.Models</RootNamespace>
-    <AssemblyName>TrackingSystem.Models</AssemblyName>
+    <RootNamespace>TrackingSystem.Services</RootNamespace>
+    <AssemblyName>TrackingSystem.Services</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,27 +42,6 @@
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.Owin">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin">
-      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security">
-      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.Cookies">
-      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Security.OAuth">
-      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Owin">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -73,24 +52,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationUser.cs" />
-    <Compile Include="Coordinate.cs" />
-    <Compile Include="DistanceModel.cs" />
-    <Compile Include="Event.cs" />
-    <Compile Include="Group.cs" />
+    <Compile Include="Contracts\IFileService.cs" />
+    <Compile Include="Contracts\ILocationService.cs" />
+    <Compile Include="Contracts\IGroupsService.cs" />
+    <Compile Include="Contracts\IEventsService.cs" />
+    <Compile Include="Contracts\IUsersService.cs" />
+    <Compile Include="Contracts\ITeachersService.cs" />
+    <Compile Include="Contracts\IStudentsService.cs" />
+    <Compile Include="FilesService.cs" />
+    <Compile Include="LocationService.cs" />
+    <Compile Include="GroupsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Student.cs" />
-    <Compile Include="Teacher.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <Compile Include="EventsService.cs" />
+    <Compile Include="UsersService.cs" />
+    <Compile Include="TeachersService.cs" />
+    <Compile Include="StudentsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrackingSystem.Common\TrackingSystem.Common.csproj">
       <Project>{a8aa56c9-c9a6-49e9-9a60-97c9992dd73d}</Project>
       <Name>TrackingSystem.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TrackingSystem.Data\TrackingSystem.Data.csproj">
+      <Project>{824cad2c-9a46-45bd-b13a-5f10046c1de2}</Project>
+      <Name>TrackingSystem.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TrackingSystem.Models\TrackingSystem.Models.csproj">
+      <Project>{d8d4e277-91d1-4c63-b0f1-47b646461f11}</Project>
+      <Name>TrackingSystem.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

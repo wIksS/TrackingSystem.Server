@@ -1,56 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
-using System.Web.Http;
-using TrackingSystem.Models;
-using Microsoft.AspNet.Identity;
-using System.Net.Http.Headers;
-using TrackingSystem.Infrastructure;
-
-namespace TrackingSystem.Controllers
+﻿namespace TrackingSystem.Controllers
 {
+    using Microsoft.AspNet.Identity;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Web;
+    using System.Web.Http;
+    using TrackingSystem.Common;
+    using TrackingSystem.Models;
+    using TrackingSystem.Services.Contracts;
+
     [Authorize]
     public class FileController : BaseController
     {
-        public FileController()
-            : base()
+        private readonly IFilesService files;
+        private readonly IUsersService users;
+
+        public FileController(IFilesService filesService, IUsersService usersService)
         {
+            this.files = filesService;
+            this.users = usersService;
         }
 
+        /// <summary>
+        /// Returns the image of the currentUser
+        /// </summary>
+        /// <param name="id">The id of the user</param>
+        /// <returns> The image as response</returns>
         [AllowAnonymous]
         [HttpGet]
         public HttpResponseMessage Get(string id)
         {
+            if (id == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
             string userName = id;
-            ApplicationUser user;
-
-            if (Data.Students.All().Any(s => s.UserName == userName))
-            {
-                user = Data.Students.All().First(s => s.UserName == userName);
-            }
-            else
-            {
-                user = Data.Teachers.All().First(t => t.UserName == userName);
-            }
-
-            string fileName;
-
-            if (user.ImageUrl != null)
-            {
-                fileName = user.ImageUrl;
-            }
-            else
-            {
-                fileName = HttpContext.Current.Server.MapPath(AppConstants.UnkownImagePath);
-            }
-
+            ApplicationUser user = users.GetByUserName(userName);
+            string fileName = files.GetUserImage(user);
             if (!File.Exists(fileName))
+            {
                 fileName = HttpContext.Current.Server.MapPath(AppConstants.UnkownImagePath);
-
+            }
+           
             FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
             HttpResponseMessage response = new HttpResponseMessage { Content = new StreamContent(fileStream) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
@@ -59,6 +54,9 @@ namespace TrackingSystem.Controllers
             return response;                
         }
 
+        /// <summary>
+        /// Adds the image file to the current user
+        /// </summary>
         [HttpPost]
         public void UploadFile()
         {
@@ -69,28 +67,15 @@ namespace TrackingSystem.Controllers
 
                 if (httpPostedFile != null)
                 {
-                    var userId = User.Identity.GetUserId();
-                    ApplicationUser user;
-
-                    if (Data.Students.All().Any(s => s.Id == userId))
-                    {
-                        user = Data.Students.Find(userId);
-                    }
-                    else
-                    {
-                        user = Data.Teachers.Find(userId);
-                    }
-
-                    // Validate the uploaded image(optional)
+                    var userName = User.Identity.GetUserName();
+                    ApplicationUser user = users.GetByUserName(userName);
 
                     // Get the complete file path
                     var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Images"), httpPostedFile.FileName + user.UserName + ".jpg");
 
                     // Save the uploaded file to "UploadedFiles" folder
                     httpPostedFile.SaveAs(fileSavePath);
-
-                    user.ImageUrl = fileSavePath;
-                    Data.Students.SaveChanges();
+                    files.SaveImage(user,fileSavePath);
                 }
             }
         }

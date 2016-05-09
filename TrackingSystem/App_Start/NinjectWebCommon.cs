@@ -5,12 +5,18 @@ namespace TrackingSystem.App_Start
 {
     using System;
     using System.Web;
+    using System.Reflection;
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
     using Ninject;
     using Ninject.Web.Common;
-
+    using Ninject.Extensions.Conventions;
+    using Data;
+    using Ninject.Web.WebApi;
+    using System.Web.Http;
+    using TrackingSystem.Services;
+    using TrackingSystem.Services.Contracts;
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -46,6 +52,7 @@ namespace TrackingSystem.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 RegisterServices(kernel);
+                GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
                 return kernel;
             }
             catch
@@ -61,6 +68,14 @@ namespace TrackingSystem.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel
+                .Bind<ITrackingSystemData>()
+                .To<TrackingSystemData>()
+                .InRequestScope();
+
+            kernel.Bind(b => b.From(Assembly.GetAssembly(typeof(StudentsService)))
+               .SelectAllClasses()
+               .BindDefaultInterface());
         }        
     }
 }

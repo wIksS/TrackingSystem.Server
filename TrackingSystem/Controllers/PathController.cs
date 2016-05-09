@@ -1,35 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using TrackingSystem.Models;
-using TrackingSystem.ViewModels;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
-
-namespace TrackingSystem.Controllers
+﻿namespace TrackingSystem.Controllers
 {
+    using AutoMapper.QueryableExtensions;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
+    using TrackingSystem.Models;
+    using TrackingSystem.Services.Contracts;
+    using TrackingSystem.ViewModels;
+
+    [Authorize]
     public class PathController : BaseController
     {
+        private readonly IUsersService users;
+
+        public PathController(IUsersService usersService)
+        {
+            this.users = usersService;
+        }
+
+        /// <summary>
+        /// Returns all locations for specified user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public ICollection<CoordinatesViewModel> GetLocation(string id)
         {
             string userName = id;
-            ApplicationUser user;
-
-            if (Data.Students.All().Any(s => s.UserName == userName))
-            {
-                user = Data.Students.All().First(s => s.UserName == userName);
-            }
-            else
-            {
-                user = Data.Teachers.All().First(t =>   t.UserName == userName);
-            }
+            ApplicationUser user = users.GetByUserName(userName);
 
             var coords = user.Coordinates.AsQueryable().Project().To<CoordinatesViewModel>().ToList();
-
             return coords;
         }
     }

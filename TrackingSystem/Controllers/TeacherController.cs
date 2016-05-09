@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using TrackingSystem.Models;
-using AutoMapper.QueryableExtensions;
-using AutoMapper;
-using TrackingSystem.ViewModels;
-
-namespace TrackingSystem.Controllers
+﻿namespace TrackingSystem.Controllers
 {
+    using AutoMapper.QueryableExtensions;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Mvc;
+    using TrackingSystem.Services.Contracts;
+    using TrackingSystem.ViewModels;
+
     public class TeacherController : BaseController
     {
-        public TeacherController()
-            : base()
+        private readonly ITeachersService teachers;
+
+        public TeacherController(ITeachersService teachersService)
         {
+            this.teachers = teachersService;
         }
 
-        public int AppliCationUserViewModel { get; private set; }
-
+        /// <summary>
+        /// Returns all teachers
+        /// </summary>
+        /// <returns>ICollection<TeacherViewModel></returns>
         [HttpGet]
         public ICollection<TeacherViewModel> GetAllTeachers()
         {
-            var teachers = this.Data.Teachers.All().Project().To<TeacherViewModel>().ToList();
+            var teachers = this.teachers.GetAll().AsQueryable().Project().To<TeacherViewModel>().ToList();
 
             return teachers;
         }

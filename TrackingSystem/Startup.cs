@@ -5,6 +5,11 @@ using Microsoft.Owin;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Cors;
 using Owin;
+using System.Web.Http;
+using Ninject;
+using Ninject.Web.Common.OwinHost;
+using Ninject.Web.WebApi.OwinHost;
+using System.Reflection;
 
 [assembly: OwinStartup(typeof(TrackingSystem.Startup))]
 
@@ -34,7 +39,22 @@ namespace TrackingSystem
                 // since this branch already runs under the "/signalr"
                 // path.
                 map.RunSignalR(hubConfiguration);
+
+                //var webApiConfiguration = new HttpConfiguration();
+                //app.UseNinjectMiddleware(CreateKernel);
+                //app.UseNinjectWebApi(webApiConfiguration);
             });
+        }
+
+        /// <summary>
+        /// Creates the kernel.
+        /// </summary>
+        /// <returns>the newly created kernel.</returns>
+        private static StandardKernel CreateKernel()
+        {
+            var kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            return kernel;
         }
     }
 }

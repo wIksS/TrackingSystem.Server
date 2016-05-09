@@ -1,126 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Principal;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using TrackingSystem.Data;
-using TrackingSystem.ViewModels;
-using Microsoft.AspNet.Identity;
-using TrackingSystem.Models;
-using AutoMapper;
-using TrackingSystem.Helpers;
-
-namespace TrackingSystem.Controllers
+﻿namespace TrackingSystem.Controllers
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+    using Microsoft.AspNet.Identity;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
+    using TrackingSystem.Models;
+    using TrackingSystem.Services.Contracts;
+    using TrackingSystem.ViewModels;
+
     [Authorize]
     public class LocationController : BaseController
     {
-        public LocationController()
-            : base()
+        private readonly ILocationService locations;
+        private readonly IUsersService users;
+
+        public LocationController(ILocationService locationsService, IUsersService usersService)
         {
+            this.locations = locationsService;
+            this.users = usersService;
         }
 
+        /// <summary>
+        /// Returns the last location for the specified user
+        /// </summary>
+        /// <param name="id"> The id of the user</param>
+        /// <returns> CoordinatesViewModel</returns>
         [HttpGet]
         public CoordinatesViewModel GetLocation(string id)
         {
             string userName = id;
-            ApplicationUser user;
-
-            if (Data.Students.All().Any(s => s.UserName == userName))
-            {
-                user = Data.Students.All().First(s => s.UserName == userName);
-            }
-            else
-            {
-                user = Data.Teachers.All().First(t => t.UserName == userName);
-            }
-
-            if (user.Coordinates.Count == 0)
+            ApplicationUser user = users.GetByUserName(userName);          
+            if (user != null && user.Coordinates.Count == 0)
             {
                 return null;
             }
 
-            var coord = Mapper.Map<CoordinatesViewModel>(user.Coordinates.Last());
+            var coordinate = locations.Get(user);
+            var coordinateViewModel = Mapper.Map<CoordinatesViewModel>(coordinate);
 
-            return coord;
+            return coordinateViewModel;
         }
 
+        /// <summary>
+        /// Adds new location for the current user and returns responce if someone is too distant from the current one
+        /// </summary>
+        /// <param name="coordinate"> the current location</param>
+        /// <returns>ICollection<DistanceViewModel></returns>
         [HttpPost]
-        public ICollection<DistanceViewModel> AddLocation(CoordinatesViewModel coordinates)
+        public ICollection<DistanceViewModel> AddLocation(CoordinatesViewModel coordinate)
         {
-            if (coordinates == null)
+            if (coordinate == null)
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, ModelState));
             }
 
             var userId = User.Identity.GetUserId();
-            ApplicationUser user;
+            ApplicationUser user = users.Get(userId);
 
-            if (Data.Students.All().Any(s => s.Id == userId))
-            {
-                user = Data.Students.Find(userId);
-            }
-            else
-            {
-                user = Data.Teachers.Find(userId);
-            }
-
-            user.IsInExcursion = true;
-
-            var dbCoordiante = Mapper.Map<Coordinate>(coordinates);
-            dbCoordiante.Date = DateTime.Now;
-
-            Data.Coordinates.Add(dbCoordiante);
-            user.Coordinates.Add(dbCoordiante);
-            dbCoordiante.User = user;
-
-            Data.Coordinates.SaveChanges();
-
-            var distancesViewModel = new List<DistanceViewModel>();
-
-
-            if (user.Group != null)
-            {
-                var distances = user.CalculateDistance().ToList();
-                foreach (var distance in distances)
-                {
-                    var currentUser = distance.Key;
-                    var calculatedDistance = distance.Value;
-
-                    if (user.Group != currentUser.Group)
-                    {
-                        throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "The students and teachers aren't in the same group"));
-                    }
-
-                    if (!user.IsInExcursion == false || !currentUser.IsInExcursion == false)
-                    {
-                        if (calculatedDistance > user.Group.MaxDistance)
-                        {
-                            var lastCoordinateViewModel = Mapper.Map<CoordinatesViewModel>(currentUser.Coordinates.Last());
-                            distancesViewModel.Add(new DistanceViewModel()
-                               {
-                                   Coordinate = lastCoordinateViewModel,
-                                   Distance = calculatedDistance,
-                                   User = Mapper.Map<ApplicationUserViewModel>(currentUser)
-                               });
-                        }
-                    }
-                }
-            }
+            var dbCoordinate = Mapper.Map<Coordinate>(coordinate);
+            locations.AddCoodinate(dbCoordinate,user);
+            var distancesViewModel = locations.GetDistantUsers(user)
+                                     .AsQueryable()
+                                     .Project()
+                                     .To<DistanceViewModel>()
+                                     .ToList();            
 
             return distancesViewModel;
-        }
-
-        [AllowAnonymous]
-        public HttpResponseMessage Options()
-        {
-            return new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK
-            };
         }
     }
 }

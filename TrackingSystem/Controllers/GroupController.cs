@@ -1,56 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Principal;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using TrackingSystem.Data;
-using TrackingSystem.ViewModels;
-using Microsoft.AspNet.Identity;
-using TrackingSystem.Models;
-using AutoMapper;
-using TrackingSystem.Helpers;
-using TrackingSystem.Infrastructure;
-
-
-namespace TrackingSystem.Controllers
+﻿namespace TrackingSystem.Controllers
 {
+    using AutoMapper;
+    using Microsoft.AspNet.Identity;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
+    using TrackingSystem.Models;
+    using TrackingSystem.Services.Contracts;
+    using TrackingSystem.ViewModels;
+
     [Authorize]
     [RoutePrefix("api/Group")]
-    public class GroupController : BaseController
+    public class GroupController : ApiController
     {
-        public GroupController()
-            : base()
+        private readonly IGroupsService groups;
+        private readonly ITeachersService teachers;
+        private readonly IStudentsService students;
+        private readonly IUsersService users;
+
+        public GroupController(IGroupsService groupsService, IStudentsService studentsService, IUsersService usersService, ITeachersService teachersService)
         {
+            this.groups = groupsService;
+            this.students = studentsService;
+            this.users = usersService;
+            this.teachers = teachersService;
         }
 
+        /// <summary>
+        /// Changes the group distance. Users will be notified using the new distance
+        /// </summary>
+        /// <param name="newDistance"> The new distance to be notified to</param>
+        /// <returns> The updated groupViewModel</returns>
         [HttpPost]
         public IHttpActionResult ChangeGroupDistance([FromUri]int newDistance)
-        {            
+        {
             var userId = User.Identity.GetUserId();
-            
-            if (Data.Teachers.All().FirstOrDefault(t => t.Id == userId) == null)
+
+            if (teachers.GetAll().FirstOrDefault(t => t.Id == userId) == null)
             {
                 return BadRequest("You can set the tracking distance only for a teacher");
             }
-            ApplicationUser user = Data.Teachers.Find(userId);
-            var group = user.Group;
 
-            if (group == null)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, ModelState));
-            }
-
-            group.MaxDistance = newDistance;
-            this.Data.Groups.SaveChanges();
-
+            var group = groups.ChangeDistance(newDistance, userId);
             var groupViewModel = Mapper.Map<GroupViewModel>(group);
 
             return Ok(groupViewModel);
         }
 
+        /// <summary>
+        /// Returns all students in the group of the teacher
+        /// </summary>
+        /// <param name="id"> Optional specify which user's group you want. The default is the logged user</param>
+        /// <returns> All students in the group</returns>
         [Route("GetStudentsInGroup")]
         public ICollection<ApplicationUserViewModel> GetStudentsInGroup(string id = null)
         {
@@ -60,45 +61,45 @@ namespace TrackingSystem.Controllers
                 userId = User.Identity.GetUserId();
             }
 
-            ApplicationUser user = Data.Users.Find(userId);
-
+            ApplicationUser user = users.Get(userId);
             if (user == null || user.Group == null)
             {
                 return null;
             }
 
             var students = user.Group.Students.Cast<ApplicationUser>().ToList();
-
             var studentsViewModel = Mapper.Map<List<ApplicationUser>, List<ApplicationUserViewModel>>(students);
 
             return studentsViewModel;
         }
 
+        /// <summary>
+        /// Removes student from group
+        /// </summary>
+        /// <param name="id">The id of the user group</param>
+        /// <returns>Ok if removed</returns>
         [Route("RemoveFromGroup")]
         public IHttpActionResult RemoveFromGroup([FromUri]string id)
         {
             string userName = id;
-            Student user = Data.Students.All().First(s => s.UserName == userName); ;
-
+            Student user = students.GetAll().First(s => s.UserName == userName);          
             if (user == null)
             {
-                return null;
+                return NotFound();
             }
 
             if (user.Group != null)
             {
-                var group = user.Group;
-
-                user.Group = null;
-                user.GroupId = null;
-
-                group.Students.Remove(user);
-                Data.Students.SaveChanges();
+                groups.RemoveFromGroup(user);
             }
 
             return Ok();
         }
 
+        /// <summary>
+        /// Returns the group of the current user
+        /// </summary>
+        /// <returns>GroupViewModel</returns>
         [Route("GetGroup")]
         public GroupViewModel GetGroup()
         {
@@ -106,30 +107,20 @@ namespace TrackingSystem.Controllers
             ApplicationUser user;
             bool isTeacher = false;
 
-            if (Data.Students.All().Any(s => s.Id == userId))
+            if (students.GetAll().Any(s => s.Id == userId))
             {
-                user = Data.Students.Find(userId);
+                user = students.Get(userId);
             }
             else
             {
-                user = Data.Teachers.Find(userId);
+                user = teachers.Get(userId);
                 isTeacher = true;
             }
 
             var group = user.Group;
-
             if (group == null && isTeacher)
             {
-                group = new Group()
-                {
-                    MaxDistance = AppConstants.MaxDistance,
-                    Teacher = user as Teacher,
-                    TeacherId = user.Id
-                };
-
-                this.Data.Groups.Add(group);
-                user.Group = group;
-                this.Data.Groups.SaveChanges();
+                group = groups.CreateGroup(user);
             }
 
             var groupViewModel = Mapper.Map<GroupViewModel>(group);

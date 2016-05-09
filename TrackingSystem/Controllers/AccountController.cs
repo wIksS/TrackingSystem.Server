@@ -23,6 +23,8 @@ using System.Net;
 using System.Web.Security;
 using TrackingSystem.ViewModels;
 using AutoMapper;
+using TrackingSystem.Services;
+using TrackingSystem.Services.Contracts;
 
 namespace TrackingSystem.Controllers
 {
@@ -34,22 +36,17 @@ namespace TrackingSystem.Controllers
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
-        public AccountController()
-            : base(new TrackingSystemData())
-        {
-        }
-
         public AccountController(ITrackingSystemData data)
-            : base(data)
         {
+            this.Data = data;
         }
 
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat, ITrackingSystemData data)
-            : base(data)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
+            this.Data = data;
         }
 
         public ApplicationUserManager UserManager
@@ -65,6 +62,12 @@ namespace TrackingSystem.Controllers
         }
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
+
+        public ITrackingSystemData Data
+        {
+            get;
+            set;
+        }
 
 
         [AllowAnonymous]
@@ -355,18 +358,7 @@ namespace TrackingSystem.Controllers
 
             ApplicationUser user;
             var isTeacher = false;
-
-            if (model.IsTeacher)
-            {
-                user = new Teacher() { UserName = model.Email, Email = model.Email, Phone = model.Phone };
-                isTeacher = true;
-            }
-            else
-            {
-                user = new Student() { UserName = model.Email, Email = model.Email, Phone = model.Phone };
-            }
-
-
+            user = new Student() { UserName = model.Email, Email = model.Email, Phone = model.Phone };
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
