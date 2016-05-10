@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrackingSystem.Models
+﻿namespace TrackingSystem.Models
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
     public abstract class ApplicationUser : IdentityUser
     {
         private ICollection<Coordinate> coordinates;
@@ -28,15 +25,35 @@ namespace TrackingSystem.Models
             return userIdentity;
         }
 
-        public string ImageUrl{ get; set; }
+        public string ImageUrl
+        {
+            get;
+            set;
+        }
 
-        public string Phone { get; set; }
+        public string Phone
+        {
+            get;
+            set;
+        }
 
-        public bool? IsInExcursion { get; set; }
+        public bool? IsInExcursion
+        {
+            get;
+            set;
+        }
 
-        public virtual Group Group { get; set; }
+        public virtual Group Group
+        {
+            get;
+            set;
+        }
 
-        public int? GroupId { get; set; }
+        public int? GroupId
+        {
+            get;
+            set;
+        }
 
         public virtual ICollection<Coordinate> Coordinates
         {

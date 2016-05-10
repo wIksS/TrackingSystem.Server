@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrackingSystem.Data.Repositories
+﻿namespace TrackingSystem.Data.Repositories
 {
+    using System.Linq;
+
     public interface IRepository<T> where T : class
     {
         IQueryable<T> All();

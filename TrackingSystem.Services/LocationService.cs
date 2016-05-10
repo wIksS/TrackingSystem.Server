@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TrackingSystem.Data;
-using TrackingSystem.Models;
-using TrackingSystem.Services.Contracts;
-
-namespace TrackingSystem.Services
+﻿namespace TrackingSystem.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using TrackingSystem.Data;
+    using TrackingSystem.Models;
+    using TrackingSystem.Services.Contracts;
+
     public class LocationService : ILocationService
     {
         private readonly ITrackingSystemData data;

@@ -1,14 +1,11 @@
-﻿using TrackingSystem.Data.Repositories;
-using TrackingSystem.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrackingSystem.Data
+﻿namespace TrackingSystem.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using TrackingSystem.Data.Repositories;
+    using TrackingSystem.Models;
+
     public class TrackingSystemData : ITrackingSystemData
     {
         private DbContext context;
@@ -27,22 +24,34 @@ namespace TrackingSystem.Data
 
         public IRepository<ApplicationUser> Users
         {
-            get { return this.GetRepository<ApplicationUser>(); }
+            get
+            {
+                return this.GetRepository<ApplicationUser>();
+            }
         }
 
         public IRepository<Teacher> Teachers
         {
-            get { return this.GetRepository<Teacher>(); }
+            get
+            {
+                return this.GetRepository<Teacher>();
+            }
         }
 
         public IRepository<Student> Students
         {
-            get { return this.GetRepository<Student>(); }
+            get
+            {
+                return this.GetRepository<Student>();
+            }
         }
 
         public IRepository<Group> Groups
         {
-            get { return this.GetRepository<Group>(); }
+            get
+            {
+                return this.GetRepository<Group>();
+            }
         }
 
 
@@ -71,7 +80,7 @@ namespace TrackingSystem.Data
                 this.repositories.Add(typeOfRepository, newRepository);
             }
 
-            return (IRepository<T>)this.repositories[typeOfRepository];
+            return (IRepository<T>) this.repositories[typeOfRepository];
         }
 
         public int SaveChanges()

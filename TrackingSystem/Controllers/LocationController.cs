@@ -11,6 +11,7 @@
     using TrackingSystem.Models;
     using TrackingSystem.Services.Contracts;
     using TrackingSystem.ViewModels;
+    using TrackingSystem.Common.Mapping;
 
     [Authorize]
     public class LocationController : BaseController
@@ -65,7 +66,6 @@
             locations.AddCoodinate(dbCoordinate,user);
             var distancesViewModel = locations.GetDistantUsers(user)
                                      .AsQueryable()
-                                     .Project()
                                      .To<DistanceViewModel>()
                                      .ToList();            
 

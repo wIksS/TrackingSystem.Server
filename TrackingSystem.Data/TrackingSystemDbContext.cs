@@ -1,15 +1,10 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using TrackingSystem.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TrackingSystem.Data.Migrations;
-
-namespace TrackingSystem.Data
+﻿namespace TrackingSystem.Data
 {
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using System.Data.Entity;
+    using TrackingSystem.Data.Migrations;
+    using TrackingSystem.Models;
+
     public class TrackingSystemDbContext : IdentityDbContext
     {
         public TrackingSystemDbContext()

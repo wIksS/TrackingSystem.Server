@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrackingSystem.Data.Repositories
+﻿namespace TrackingSystem.Data.Repositories
 {
+    using System.Data.Entity;
+    using System.Linq;
+
     public class Repository<T> : IRepository<T> where T : class
     {
         private DbContext context;

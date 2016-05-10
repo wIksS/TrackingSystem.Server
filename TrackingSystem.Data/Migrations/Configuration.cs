@@ -1,12 +1,10 @@
 namespace TrackingSystem.Data.Migrations
 {
     using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using System.Linq;
-using TrackingSystem.Models;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
+    using TrackingSystem.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<TrackingSystem.Data.TrackingSystemDbContext>
     {
@@ -22,7 +20,10 @@ using TrackingSystem.Models;
             {
                 var store = new RoleStore<IdentityRole>(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var roleAdmin = new IdentityRole { Name = "Admin" };
+                var roleAdmin = new IdentityRole
+                {
+                    Name = "Admin"
+                };
 
                 manager.Create(roleAdmin);
             }
@@ -32,7 +33,10 @@ using TrackingSystem.Models;
             {
                 var store = new RoleStore<IdentityRole>(context);
                 var manager = new RoleManager<IdentityRole>(store);
-                var roleTeacher = new IdentityRole { Name = "Teacher" };
+                var roleTeacher = new IdentityRole
+                {
+                    Name = "Teacher"
+                };
 
                 manager.Create(roleTeacher);
             }
@@ -41,11 +45,15 @@ using TrackingSystem.Models;
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new Teacher { UserName = "Admin@g.c",Email = "Admin@g.c" };
+                var user = new Teacher
+                {
+                    UserName = "Admin@g.c",
+                    Email = "Admin@g.c"
+                };
 
                 manager.Create(user, "123456");
                 manager.AddToRole(user.Id, "Admin");
             }
-        }        
+        }
     }
 }

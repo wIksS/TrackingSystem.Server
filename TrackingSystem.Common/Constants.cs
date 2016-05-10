@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TrackingSystem.Common
+﻿namespace TrackingSystem.Common
 {
     public static class AppConstants
     {

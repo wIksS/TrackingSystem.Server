@@ -1,6 +1,5 @@
 ﻿namespace TrackingSystem.Controllers
 {
-    using AutoMapper;
     using Microsoft.AspNet.Identity;
     using System.Collections.Generic;
     using System.Linq;
@@ -11,7 +10,7 @@
 
     [Authorize]
     [RoutePrefix("api/Group")]
-    public class GroupController : ApiController
+    public class GroupController : BaseController
     {
         private readonly IGroupsService groups;
         private readonly ITeachersService teachers;

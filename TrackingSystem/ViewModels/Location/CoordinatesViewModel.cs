@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TrackingSystem.ViewModels
+﻿namespace TrackingSystem.ViewModels
 {
-    public class CoordinatesViewModel
+    using System;
+    using TrackingSystem.Common.Mapping;
+    using TrackingSystem.Models;
+
+    public class CoordinatesViewModel : IMapFrom<Coordinate>
     {
         public DateTime Date
         {
@@ -49,7 +48,7 @@ namespace TrackingSystem.ViewModels
             set;
         }
 
-        public int?  Heading
+        public int? Heading
         {
             get;
             set;

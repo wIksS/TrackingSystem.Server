@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TrackingSystem.Common;
-using TrackingSystem.Data;
-using TrackingSystem.Models;
-using TrackingSystem.Services.Contracts;
-
-namespace TrackingSystem.Services
+﻿namespace TrackingSystem.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using TrackingSystem.Common;
+    using TrackingSystem.Data;
+    using TrackingSystem.Models;
+    using TrackingSystem.Services.Contracts;
+
     public class TeachersService : ITeachersService
     {
         private readonly ITrackingSystemData data;
@@ -19,18 +16,6 @@ namespace TrackingSystem.Services
         {
             this.data = data;
             this.calculator = distanceCalculator;
-        }
-
-        public IEnumerable<Teacher> GetAll()
-        {
-            var teachers = this.data.Teachers.All();
-
-            return teachers;
-        }
-
-        public Teacher Get(string id)
-        {
-            return data.Teachers.Find(id);
         }
 
         public IEnumerable<DistanceModel> CalculateDistance(ApplicationUser user)
@@ -56,5 +41,17 @@ namespace TrackingSystem.Services
                 }
             }
         }
+
+        public IEnumerable<Teacher> GetAll()
+        {
+            var teachers = this.data.Teachers.All();
+
+            return teachers;
+        }
+
+        public Teacher Get(string id)
+        {
+            return data.Teachers.Find(id);
+        }        
     }
 }

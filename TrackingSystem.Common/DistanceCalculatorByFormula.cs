@@ -1,8 +1,7 @@
-﻿using System;
-using System.Device.Location;
-
-namespace TrackingSystem.Common
+﻿namespace TrackingSystem.Common
 {
+    using System;
+
     // This class should be injected in Ninject if we want to use the formula
     public class DistanceCalculatorByFormula : IDistanceCalculator
     {

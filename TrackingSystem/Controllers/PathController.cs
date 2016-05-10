@@ -7,6 +7,7 @@
     using TrackingSystem.Models;
     using TrackingSystem.Services.Contracts;
     using TrackingSystem.ViewModels;
+    using TrackingSystem.Common.Mapping;
 
     [Authorize]
     public class PathController : BaseController
@@ -29,7 +30,7 @@
             string userName = id;
             ApplicationUser user = users.GetByUserName(userName);
 
-            var coords = user.Coordinates.AsQueryable().Project().To<CoordinatesViewModel>().ToList();
+            var coords = user.Coordinates.AsQueryable().To<CoordinatesViewModel>().ToList();
             return coords;
         }
     }

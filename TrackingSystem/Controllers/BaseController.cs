@@ -1,15 +1,28 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using TrackingSystem.Data;
-public class BaseController : ApiController
+﻿namespace TrackingSystem.Controllers
 {
-    [AllowAnonymous]
-    public HttpResponseMessage Options()
+    using AutoMapper;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
+    using TrackingSystem.Common.Mapping;
+
+    public class BaseController : ApiController
     {
-        return new HttpResponseMessage
+        protected IMapper Mapper
         {
-            StatusCode = HttpStatusCode.OK
-        };
+            get
+            {
+                return AutoMapperConfig.Configuration.CreateMapper();
+            }
+        }
+
+        [AllowAnonymous]
+        public HttpResponseMessage Options()
+        {
+            return new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK
+            };
+        }
     }
 }

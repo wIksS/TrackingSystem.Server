@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TrackingSystem.Models;
-
-namespace TrackingSystem.Services.Contracts
+﻿namespace TrackingSystem.Services.Contracts
 {
+    using TrackingSystem.Models;
+
     public interface IFilesService
     {
         /// <summary>

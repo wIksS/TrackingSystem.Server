@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrackingSystem.Models
+﻿namespace TrackingSystem.Models
 {
+    using System.Collections.Generic;
+
     public class Group
     {
         private ICollection<Student> students;
@@ -15,7 +11,11 @@ namespace TrackingSystem.Models
             this.Students = new HashSet<Student>();
         }
 
-        public int Id { get; set; }
+        public int Id
+        {
+            get;
+            set;
+        }
 
         public virtual ICollection<Student> Students
         {
@@ -29,10 +29,22 @@ namespace TrackingSystem.Models
             }
         }
 
-        public virtual Teacher Teacher { get; set; }
+        public virtual Teacher Teacher
+        {
+            get;
+            set;
+        }
 
-        public string TeacherId { get; set; }
+        public string TeacherId
+        {
+            get;
+            set;
+        }
 
-        public int MaxDistance { get; set; }
+        public int MaxDistance
+        {
+            get;
+            set;
+        }
     }
 }

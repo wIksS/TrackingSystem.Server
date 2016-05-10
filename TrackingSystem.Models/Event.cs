@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrackingSystem.Models
+﻿namespace TrackingSystem.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class Event
     {
         private ICollection<ApplicationUser> users;
@@ -15,11 +12,23 @@ namespace TrackingSystem.Models
             this.Users = new HashSet<ApplicationUser>();
         }
 
-        public int Id { get; set; }
+        public int Id
+        {
+            get;
+            set;
+        }
 
-        public string Message { get; set; }
+        public string Message
+        {
+            get;
+            set;
+        }
 
-        public DateTime Date { get; set; }
+        public DateTime Date
+        {
+            get;
+            set;
+        }
 
         public double Latitude
         {
@@ -34,8 +43,14 @@ namespace TrackingSystem.Models
         }
         public virtual ICollection<ApplicationUser> Users
         {
-            get { return this.users; }
-            set { this.users = value; }
+            get
+            {
+                return this.users;
+            }
+            set
+            {
+                this.users = value;
+            }
         }
     }
 }

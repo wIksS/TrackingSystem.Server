@@ -76,7 +76,7 @@
 
             foreach (var map in maps)
             {
-                //map.CreateMappings(mapperConfiguration);
+                map.CreateMappings(mapperConfiguration);
             }
         }
     }

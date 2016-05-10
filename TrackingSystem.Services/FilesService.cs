@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TrackingSystem.Data;
-using TrackingSystem.Models;
-using TrackingSystem.Services.Contracts;
-
-namespace TrackingSystem.Services
+﻿namespace TrackingSystem.Services
 {
+    using TrackingSystem.Data;
+    using TrackingSystem.Models;
+    using TrackingSystem.Services.Contracts;
+
     public class FilesService : IFilesService
     {
         private readonly ITrackingSystemData data;

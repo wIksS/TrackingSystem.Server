@@ -40,11 +40,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="AutoMapper.Net4">
-      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -222,7 +220,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -275,18 +272,18 @@
     </Compile>
     <Compile Include="Infrastructure\EventHub.cs" />
     <Compile Include="Infrastructure\UsersConnections.cs" />
-    <Compile Include="ViewModels\AccountBindingModels.cs" />
-    <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="ViewModels\Account\AccountBindingModels.cs" />
+    <Compile Include="ViewModels\Account\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\ApplicationUserViewModel.cs" />
-    <Compile Include="ViewModels\CoordinatesViewModel.cs" />
-    <Compile Include="ViewModels\DistanceViewModel.cs" />
-    <Compile Include="ViewModels\EventViewModel.cs" />
-    <Compile Include="ViewModels\GroupViewModel.cs" />
-    <Compile Include="ViewModels\TeacherViewModel.cs" />
+    <Compile Include="ViewModels\Account\ApplicationUserViewModel.cs" />
+    <Compile Include="ViewModels\Location\CoordinatesViewModel.cs" />
+    <Compile Include="ViewModels\Location\DistanceViewModel.cs" />
+    <Compile Include="ViewModels\Group\EventViewModel.cs" />
+    <Compile Include="ViewModels\Group\GroupViewModel.cs" />
+    <Compile Include="ViewModels\Group\TeacherViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -383,6 +380,10 @@
       <Project>{d8d4e277-91d1-4c63-b0f1-47b646461f11}</Project>
       <Name>TrackingSystem.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TrackingSystem.Services.Web\TrackingSystem.Services.Web.csproj">
+      <Project>{5210b6ed-7161-45e9-b353-6177454b42ec}</Project>
+      <Name>TrackingSystem.Services.Web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TrackingSystem.Services\TrackingSystem.Services.csproj">
       <Project>{83a2cbd9-e165-4a9c-be24-9fc703dea5e8}</Project>
       <Name>TrackingSystem.Services</Name>
@@ -416,7 +417,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

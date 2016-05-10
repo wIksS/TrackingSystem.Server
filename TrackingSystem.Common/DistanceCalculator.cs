@@ -1,10 +1,7 @@
-﻿using System;
-using System.Device.Location;
-
-namespace TrackingSystem.Common
+﻿namespace TrackingSystem.Common
 {
-    //TODO: instanced class ninject
-    //TODO: Services for teacher and student
+    using System.Device.Location;
+
     public class DistanceCalculator : IDistanceCalculator
     {
         public double Calculate(double lat1, double lat2, double long1, double long2)
