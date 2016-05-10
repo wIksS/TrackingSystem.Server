@@ -38,8 +38,6 @@ namespace TrackingSystem.Models
 
         public int? GroupId { get; set; }
 
-        public abstract IEnumerable<KeyValuePair<ApplicationUser, double>> CalculateDistance();
-
         public virtual ICollection<Coordinate> Coordinates
         {
             get

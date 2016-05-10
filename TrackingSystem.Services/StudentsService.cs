@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrackingSystem.Common;
 using TrackingSystem.Data;
 using TrackingSystem.Models;
 using TrackingSystem.Services.Contracts;
@@ -12,10 +13,12 @@ namespace TrackingSystem.Services
     public class StudentsService : IStudentsService
     {
         private readonly ITrackingSystemData data;
+        private readonly IDistanceCalculator calculator;
 
-        public StudentsService(ITrackingSystemData data)
+        public StudentsService(ITrackingSystemData data, IDistanceCalculator distanceCalculator)
         {
             this.data = data;
+            this.calculator = distanceCalculator;
         }
 
         public void AddStudentToGroup(Teacher teacher, Student student)
@@ -53,6 +56,28 @@ namespace TrackingSystem.Services
         public IEnumerable<Student> GetAll()
         {
             return data.Students.All();
+        }
+
+        public IEnumerable<DistanceModel> CalculateDistance(ApplicationUser student)
+        {
+            var studentLastCoordinate = student.Coordinates.LastOrDefault();
+            Coordinate teacherLastCoordinate = null;
+            if (student.Group.Teacher != null)
+            {
+                teacherLastCoordinate = student.Group.Teacher.Coordinates.LastOrDefault();
+            }
+
+            if (studentLastCoordinate != null && teacherLastCoordinate != null)
+            {
+                var distance = calculator.Calculate(studentLastCoordinate.Latitude, teacherLastCoordinate.Latitude, studentLastCoordinate.Longitude, teacherLastCoordinate.Longitude);
+
+                yield return new DistanceModel()
+                {
+                    Distance = distance,
+                    User = student.Group.Teacher,
+                    Coordinate = studentLastCoordinate
+                };
+            };
         }
     }
 }

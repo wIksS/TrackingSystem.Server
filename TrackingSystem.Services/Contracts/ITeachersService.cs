@@ -10,6 +10,12 @@ namespace TrackingSystem.Services.Contracts
     public interface ITeachersService
     {
         /// <summary>
+        /// Calculates the distance to the students
+        /// </summary>
+        /// <returns>IEnumerable<DistanceModel></returns>
+        IEnumerable<DistanceModel> CalculateDistance(ApplicationUser user);
+
+        /// <summary>
         /// Returns all teachers
         /// </summary>
         /// <returns>Teacher</returns>

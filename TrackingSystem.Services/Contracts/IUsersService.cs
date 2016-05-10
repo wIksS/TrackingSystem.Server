@@ -23,5 +23,11 @@ namespace TrackingSystem.Services.Contracts
         /// <returns>ApplicationUser</returns>
         ApplicationUser GetByUserName(string userName);
 
+        /// <summary>
+        /// Calculates the distance to the user
+        /// </summary>
+        /// <returns>IEnumerable<DistanceModel></returns>
+        IEnumerable<DistanceModel> CalculateDistance(ApplicationUser user);
+
     }
 }

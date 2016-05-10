@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingSystem.Common", "Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingSystem.Services", "TrackingSystem.Services\TrackingSystem.Services.csproj", "{83A2CBD9-E165-4A9C-BE24-9FC703DEA5E8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{0C0A1968-B44E-44C5-AFD1-4BA41A643510}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{84C606F0-50B4-4327-B93B-46C9F3CCE246}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{AF7284B8-EECA-4A8A-9EA4-251B47D77051}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +48,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{83A2CBD9-E165-4A9C-BE24-9FC703DEA5E8} = {0C0A1968-B44E-44C5-AFD1-4BA41A643510}
+		{824CAD2C-9A46-45BD-B13A-5F10046C1DE2} = {84C606F0-50B4-4327-B93B-46C9F3CCE246}
+		{D8D4E277-91D1-4C63-B0F1-47B646461F11} = {84C606F0-50B4-4327-B93B-46C9F3CCE246}
+		{79621331-99DD-4754-9B7E-EC15C4250DB6} = {AF7284B8-EECA-4A8A-9EA4-251B47D77051}
 	EndGlobalSection
 EndGlobal

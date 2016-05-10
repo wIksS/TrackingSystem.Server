@@ -12,10 +12,12 @@ namespace TrackingSystem.Services
     public class LocationService : ILocationService
     {
         private readonly ITrackingSystemData data;
+        private readonly IUsersService users;
 
-        public LocationService(ITrackingSystemData data)
+        public LocationService(ITrackingSystemData data, IUsersService usersService)
         {
             this.data = data;
+            this.users = usersService;
         }
 
         public Coordinate Get(ApplicationUser user)
@@ -40,12 +42,11 @@ namespace TrackingSystem.Services
             var distancesList = new List<DistanceModel>();
             if (user.Group != null)
             {
-                var distances = user.CalculateDistance().ToList();
+                var distances = users.CalculateDistance(user).ToList();
                 foreach (var distance in distances)
                 {
-                    var currentUser = distance.Key;
-                    var calculatedDistance = distance.Value;
-
+                    var currentUser = distance.User;
+                    var calculatedDistance = distance.Distance;
                     if (user.Group != currentUser.Group)
                     {
                         throw new ArgumentException("The students and teachers aren't in the same group");

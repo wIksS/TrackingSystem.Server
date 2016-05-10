@@ -17,6 +17,7 @@ namespace TrackingSystem.App_Start
     using System.Web.Http;
     using TrackingSystem.Services;
     using TrackingSystem.Services.Contracts;
+    using TrackingSystem.Common;
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -71,6 +72,12 @@ namespace TrackingSystem.App_Start
             kernel
                 .Bind<ITrackingSystemData>()
                 .To<TrackingSystemData>()
+                .InRequestScope();
+            
+            // Call DistanceCalculatorByFormula here if you want to use it
+            kernel
+                .Bind<IDistanceCalculator>()
+                .To<DistanceCalculator>()
                 .InRequestScope();
 
             kernel.Bind(b => b.From(Assembly.GetAssembly(typeof(StudentsService)))

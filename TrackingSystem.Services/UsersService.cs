@@ -12,10 +12,14 @@ namespace TrackingSystem.Services
     public class UsersService : IUsersService
     {
         private readonly ITrackingSystemData data;
+        private readonly ITeachersService teachers;
+        private readonly IStudentsService students;
 
-        public UsersService(ITrackingSystemData data)
+        public UsersService(ITrackingSystemData data, IStudentsService studentsService, ITeachersService teachersService)
         {
             this.data = data;
+            this.students = studentsService;
+            this.teachers = teachersService;
         }
 
         public ApplicationUser Get(string id)
@@ -38,6 +42,23 @@ namespace TrackingSystem.Services
             }
 
             return user;
+        }
+
+
+        public IEnumerable<DistanceModel> CalculateDistance(ApplicationUser user)
+        {
+            if (user is Teacher)
+            {
+                return teachers.CalculateDistance(user);
+            }
+            else if(user is Student)
+            {
+                return students.CalculateDistance(user);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
